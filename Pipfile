@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+requests = "==2.19.1"
+weasyprint = "*"
+google-cloud-vision = "*"
+starlette = "*"
+facebook-sdk = "*"
+
+[requires]
+python_version = "3.7"
