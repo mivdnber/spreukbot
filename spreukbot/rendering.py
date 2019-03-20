@@ -35,7 +35,7 @@ def render(image_url, image_width, image_height, text):
     font = random.choice(fonts)
     color = random.choice(colors)
     pixabay_logo = os.path.join(os.getcwd(), 'spreukbot/pixabay-logo.png')
-    
+
     demo_page = f'''
         data:text/html,
         <!doctype html>
@@ -76,7 +76,7 @@ def render(image_url, image_width, image_height, text):
                     width: 100%;
                     height: 100%;
                     font-family: {font};
-                    font-size: 48px;
+                    font-size: 32px;
                     color: {color};
                     text-stroke: 2px white;
                 }}
