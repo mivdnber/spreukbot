@@ -125,3 +125,5 @@ config.py
 *.log
 ansible/galaxy_roles
 google-auth.json
+spreuk.png
+

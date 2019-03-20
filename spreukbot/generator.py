@@ -4,18 +4,22 @@ import difflib
 import io
 import textwrap
 import urllib.parse
+import logging
 
 import requests
 from PIL import Image, ImageDraw, ImageFont
+import click
 
 import spreukbot.rendering as rendering
 import spreukbot.facebook as facebook
 import spreukbot.config as config
 
-
 PIXABAY_CATEGORIES = [
     'nature', 'backgrounds', 'people', 'feelings'
 ]
+
+logger = logging.getLogger('spreukbot')
+
 
 def ngram(n, text):
     words = text.split()
@@ -71,23 +75,34 @@ class SpreukGenerator:
         )
 
 
-if __name__ == '__main__':
-    import sys
+
+@click.command()
+@click.option('--post/--no-post', default=False)
+@click.option('--file', default=None)
+@click.option('--show/--no-show', default=False)
+@click.option('--count', default=None, type=int)
+def main(post, file, show, count):    
     gen = SpreukGenerator('spreukbot/corpus.txt')
-    if len(sys.argv) == 2:
-        for i in range(int(sys.argv[1])):
+    if count is not None:
+        for i in range(count):
             text = gen.generate()
             print(text)
         sys.exit(0)
-    print('getting pixabay image')
+    logger.info('getting pixabay image')
     image, w, h = random_pixabay()
-    print('generating text')
+    logger.info('generating text')
     text = gen.generate()
-    print('rendering image')
+    logger.info('rendering image')
     png = rendering.render(image, w, h, text)
-    print('writing to file')
-    with open('spreuk.png', 'wb') as f:
-        f.write(png)
-    print('showing image')
-    facebook.post_update(png)
-    Image.open(io.BytesIO(png)).show()
+    if file is not None:
+        logger.info('writing to file')
+        with open(file, 'wb') as f:
+            f.write(png)
+    if show:
+        logger.info('showing image')
+        Image.open(io.BytesIO(png)).show()
+    if post:
+        facebook.post_update(png)
+
+if __name__ == '__main__':
+    main()
