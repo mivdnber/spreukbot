@@ -13,10 +13,8 @@ import click
 import spreukbot.rendering as rendering
 import spreukbot.facebook as facebook
 import spreukbot.config as config
+import spreukbot.pixabay as pixabay
 
-PIXABAY_CATEGORIES = [
-    'nature', 'backgrounds', 'people', 'feelings'
-]
 
 logger = logging.getLogger('spreukbot')
 
@@ -26,19 +24,21 @@ def ngram(n, text):
     return zip(*[words[x:] for x in range(n)])
 
 
-def random_pixabay():
-    params = {
-        'key': config.PIXABAY_KEY,
-        'safesearch': 'true',
-        'order': 'latest',
-        'per_page': 200,
-        'category': random.choice(PIXABAY_CATEGORIES)
-    }
-    results = requests.get(config.PIXABAY_URL, params, timeout=2.0).json()
-    hit = random.choice(results['hits'])
-    url = hit['webformatURL']
-    image_data = requests.get(url, timeout=2.0).content
-    return hit['webformatURL'], hit['webformatWidth'], hit['webformatHeight']
+EMOJI = [
+    '😂',
+    '😍',
+    '😜',
+    '😩',
+    '😠',
+    '💩',
+    '💘',
+    '💔',
+]
+
+
+def get_random_emoji():
+    count = random.choice([0, 0, 0, 0, 1, 2, 3])
+    return random.choice(EMOJI) * count
 
 
 class SpreukGenerator:
@@ -89,11 +89,12 @@ def main(post, file, show, count):
             print(text)
         sys.exit(0)
     logger.info('getting pixabay image')
-    image, w, h = random_pixabay()
+    image, w, h = pixabay.random_pixabay()
     logger.info('generating text')
     text = gen.generate()
     logger.info('rendering image')
-    png = rendering.render(image, w, h, text)
+    emoji = get_random_emoji()
+    png = rendering.render(image, w, h, text, emoji=emoji)
     if file is not None:
         logger.info('writing to file')
         with open(file, 'wb') as f:

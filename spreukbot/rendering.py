@@ -30,12 +30,11 @@ class WeasyprintLoggerFilter(logging.Filter):
         return True
 
 
-def render(image_url, image_width, image_height, text):
+def render(image_url, image_width, image_height, text, emoji=""):
     ugly_text = uglify(text)
     font = random.choice(fonts)
     color = random.choice(colors)
     pixabay_logo = os.path.join(os.getcwd(), 'spreukbot/pixabay-logo.png')
-
     demo_page = f'''
         data:text/html,
         <!doctype html>
@@ -43,8 +42,14 @@ def render(image_url, image_width, image_height, text):
         <head>
             <meta charset="utf-8">
             <title>LOL</title>
-            <link href="https://fonts.googleapis.com/css?family=Pacifico|Baloo+Tamma|Merriweather|Poiret+One" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Pacifico|Baloo+Tamma|Merriweather|Poiret+One|Noto+Sans" rel="stylesheet">
             <style>
+                @font-face {{
+                    font-family: 'Noto Emoji';
+                    font-style: normal;
+                    font-weight: 300;
+                    src: url('file:///Users/michiel/Projects/spreukbot/spreukbot/fonts/noto/NotoColorEmoji.ttf') format('ttf');
+                }}
                 @page {{
                     margin: 0;
                     size: {image_width}px {image_height}px;
@@ -57,6 +62,7 @@ def render(image_url, image_width, image_height, text):
                 html, body {{
                     text-align: center;
                     padding: 0;
+                    height: 100%;
                 }}
                 body:before {{
                     content: "";
@@ -69,7 +75,7 @@ def render(image_url, image_width, image_height, text):
                     background-image: url({image_url.replace('https://pixabay.com', 'http://spreukbot-pixabay.barkr.uk')});
                     background-repeat: no-repeat;
                 }}
-                p {{
+                p.saying {{
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -78,12 +84,20 @@ def render(image_url, image_width, image_height, text):
                     font-family: {font};
                     font-size: 32px;
                     color: {color};
-                    text-stroke: 2px white;
                 }}
-                p.shadow {{
+                p.saying.shadow {{
                     color: black !important;
                     top: 1px;
                     left: 1px;
+                }}
+                p.emoji {{
+                    position: absolute;
+                    bottom: 10%;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                    font-family: 'Noto Emoji', sans-serif;
+                    font-size: 54px;
                 }}
                 div.watermark {{
                     position: absolute;
@@ -94,14 +108,16 @@ def render(image_url, image_width, image_height, text):
                     width: 20%;
                 }}
                 img.pixabay {{
+                    position: absolute;
                     left: 0;
                     bottom: 0;
                 }}
             </style>
         </head>
         <body>
-        <p class="shadow">{ugly_text}</p>
-        <p>{ugly_text}</p>
+        <p class="emoji">{emoji}</p>
+        <p class="saying shadow">{ugly_text}</p>
+        <p class="saying">{ugly_text}</p>
         <div class="watermark">
             Wijze spreuken om te delen van Marko V. Keten
         </div

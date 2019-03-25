@@ -12,7 +12,9 @@ google-cloud-vision = "*"
 starlette = "*"
 facebook-sdk = "*"
 click = "*"
+opencv-python = "*"
+numpy = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
-
