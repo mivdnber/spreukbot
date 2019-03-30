@@ -4,6 +4,10 @@ import random
 import logging
 import os
 
+import spreukbot
+
+
+package_directory = os.path.dirname(os.path.abspath(__file__))
 colors = ["pink", "yellow", "red", "green", "orange"]
 fonts = [
     "'Baloo Tamma', cursive",
@@ -35,6 +39,7 @@ def render(image_url, image_width, image_height, text, emoji=""):
     font = random.choice(fonts)
     color = random.choice(colors)
     pixabay_logo = os.path.join(os.getcwd(), 'spreukbot/pixabay-logo.png')
+    emoji_font_path = os.path.join(package_directory, 'fonts/noto/NotoColorEmoji.ttf')
     demo_page = f'''
         data:text/html,
         <!doctype html>
@@ -48,7 +53,7 @@ def render(image_url, image_width, image_height, text, emoji=""):
                     font-family: 'Noto Emoji';
                     font-style: normal;
                     font-weight: 300;
-                    src: url('file:///Users/michiel/Projects/spreukbot/spreukbot/fonts/noto/NotoColorEmoji.ttf') format('ttf');
+                    src: url('file://{emoji_font_path}') format('ttf');
                 }}
                 @page {{
                     margin: 0;
