@@ -132,9 +132,11 @@ def render(image_url, image_width, image_height, text, emoji=""):
     '''
     from weasyprint import HTML
     from weasyprint.logger import LOGGER as weasyprint_logger
+    from weasyprint.fonts import FontConfiguration
     import logging
+    font_config = FontConfiguration()
     logging.getLogger('weasyprint').setLevel(logging.DEBUG)
     weasyprint_logger.addFilter(WeasyprintLoggerFilter())
     weasyprint_logger.setLevel(logging.DEBUG)
-    data = HTML(string=demo_page).write_png()
+    data = HTML(string=demo_page).write_png(font_config=font_config)
     return data
