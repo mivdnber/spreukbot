@@ -49,11 +49,17 @@ class SpreukGenerator:
         for line in self.lines:
             for a, b, c in ngram(3, line):
                 self.mc[(a,b)].append(c)
+                self.mc[(a.lower(),b.lower())].append(c)
+        print(self.mc)
+    @property
+    def starting_words(self):
+        return [k for k in self.mc.keys() if k[0].istitle()]
 
     def random_start(self):
-        return random.choice([k for k in self.mc.keys() if k[0].istitle()])
+        print(len(set(self.starting_words)), 'possible starting words')
+        return random.choice(self.starting_words)
 
-    def generate(self, max_iterations=30, max_retries=5, min_length=9):
+    def generate(self, max_iterations=30, max_retries=5, min_length=9, accept_length=14):
         output = ''
         while len(output.split()) < min_length:
             state = self.random_start()
@@ -61,15 +67,20 @@ class SpreukGenerator:
             while self.mc[state] and max_iterations:
                 word = random.choice(self.mc[state])
                 output += ' ' + word
+                print(output)
                 state = (state[1], word)
+                if word.endswith(('.', '!')) and len(output.split()) > accept_length:
+                    print("ending")
+                    break
                 max_iterations -= 1
         if not max_iterations or not self.unique(output):
+            print(f'Rejected; trying {max_retries} more time(s)')
             return self.generate(max_retries=max_retries - 1)
         return output.strip()
 
     def unique(self, spreuk):
         return all(
-            difflib.SequenceMatcher(a=spreuk, b=line).ratio() < .45 \
+            difflib.SequenceMatcher(a=spreuk, b=line).ratio() < .55 \
                 and spreuk not in line
             for line in self.lines
         )
