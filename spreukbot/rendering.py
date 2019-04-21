@@ -39,7 +39,7 @@ def render(image_url, image_width, image_height, text, emoji=""):
     font = random.choice(fonts)
     color = random.choice(colors)
     pixabay_logo = os.path.join(os.getcwd(), 'spreukbot/pixabay-logo.png')
-    emoji_font_path = os.path.join(package_directory, 'fonts/noto/NotoColorEmoji.ttf')
+    emoji_font_path = os.path.join(package_directory, 'fonts/noto/NotoColorEmoji.woff')
     demo_page = f'''
         data:text/html,
         <!doctype html>
