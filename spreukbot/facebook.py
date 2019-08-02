@@ -36,7 +36,7 @@ def fetch_album(album_id):
 
 def post_update(image):
     page_access_token = config.FACEBOOK_PAGE_TOKEN
-    graph = facebook.GraphAPI(page_access_token)
+    graph = facebook.GraphAPI(page_access_token, version='3.1')
     # facebook_page_id = '562627210891933'
     facebook_page_id = config.FACEBOOK_PAGE_ID
     graph.put_photo(image=io.BytesIO(image), album_path=facebook_page_id + "/photos")
