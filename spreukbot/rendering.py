@@ -35,6 +35,7 @@ class WeasyprintLoggerFilter(logging.Filter):
 
 
 def render(image_url, image_width, image_height, text, emoji=""):
+    emoji = ""
     ugly_text = uglify(text)
     font = random.choice(fonts)
     color = random.choice(colors)
@@ -77,7 +78,7 @@ def render(image_url, image_width, image_height, text, emoji=""):
                     width: 100%;
                     height: 100%;
                     background-size: cover;
-                    background-image: url({image_url.replace('https://pixabay.com', 'http://spreukbot-pixabay.barkr.uk')});
+                    background-image: url({image_url});
                     background-repeat: no-repeat;
                 }}
                 p.saying {{
@@ -124,7 +125,7 @@ def render(image_url, image_width, image_height, text, emoji=""):
         <p class="saying shadow">{ugly_text}</p>
         <p class="saying">{ugly_text}</p>
         <div class="watermark">
-            Wijze spreuken om te delen van Marko V. Keten
+            Wijze spreuken voor te delen van Marko V. Keten
         </div
         <img class="pixabay" src="file://{pixabay_logo}">
         </body>

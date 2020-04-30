@@ -4,9 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+mypy = "*"
 
 [packages]
-requests = ">=2.21.0"
+requests = "*"
 weasyprint = "*"
 google-cloud-vision = "*"
 starlette = "*"
@@ -15,6 +16,7 @@ click = "*"
 opencv-python = "*"
 numpy = "*"
 pillow = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.7"

@@ -22,7 +22,9 @@ def random_pixabay(categories=None, search=None):
     if search is not None:
         params['q'] = search
 
-    results = requests.get(config.PIXABAY_URL, params, timeout=2.0).json()
+    response = requests.get(config.PIXABAY_URL, params, timeout=2.0)
+    print(response.text)
+    results = response.json()
     hit = random.choice(results['hits'])
     url = hit['webformatURL']
     # image_data = requests.get(url, timeout=2.0).content
