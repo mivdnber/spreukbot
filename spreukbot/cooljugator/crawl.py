@@ -1,6 +1,10 @@
 from dataclasses import dataclass
 import requests
 from typing import Dict
+import sys
+import json
+import traceback
+import time
 
 from bs4 import BeautifulSoup
 
@@ -27,8 +31,15 @@ def crawl_index():
     soup = BeautifulSoup(response.text, 'html.parser')
     anchors = soup.select('.stacked .item a')
     for anchor in anchors:
-        raw_verb = crawl_verb(f"https://cooljugator.com{anchor['href']}", session)
-        print(raw_verb)
+        try:
+            raw_verb = crawl_verb(f"https://cooljugator.com{anchor['href']}", session)
+            print(json.dumps(raw_verb))
+        except KeyboardInterrupt:
+            raise
+        except:
+            traceback.print_exc(file=sys.stderr)
+        time.sleep(.3)
 
-# print(crawl_verb('https://cooljugator.com/nl/aaien'))
-crawl_index()
+
+if __name__ == '__main__':
+    crawl_index()
