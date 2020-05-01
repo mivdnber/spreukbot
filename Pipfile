@@ -22,4 +22,5 @@ beautifulsoup4 = "*"
 python_version = "3.7"
 
 [scripts]
-crawl-verbs = "python -m spreukbot.cooljugator.crawl"
+crawl-verbs = "python -m spreukbot.crawler.verbs"
+crawl-professions = "python -m spreukbot.crawler.professions"
