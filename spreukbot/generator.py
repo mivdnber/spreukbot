@@ -50,7 +50,7 @@ class SpreukGenerator:
             for a, b, c in ngram(3, line):
                 self.mc[(a,b)].append(c)
                 self.mc[(a.lower(),b.lower())].append(c)
-        print(self.mc)
+
     @property
     def starting_words(self):
         return [k for k in self.mc.keys() if k[0].istitle()]
