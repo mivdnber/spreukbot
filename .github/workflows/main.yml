@@ -24,7 +24,13 @@ jobs:
         with:
           command: install
 
-      - name: Test
+      - name: Generate and post
         uses: VaultVulp/action-pipenv@v2.0.1
         with:
           command: run generate --post
+        env: # Or as an environment variable
+          FACEBOOK_TOKEN: ${{ secrets.FACEBOOK_TOKEN }}
+          FACEBOOK_PAGE_TOKEN: ${{ secrets.FACEBOOK_PAGE_TOKEN }}
+          FACEBOOK_PATH_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
+          PIXABAY_URL: ${{ secrets.PIXABAY_URL }}
