@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 mypy = "*"
+black = "*"
 
 [packages]
 requests = "*"
@@ -17,6 +18,7 @@ opencv-python = "*"
 numpy = "*"
 pillow = "*"
 beautifulsoup4 = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.7"
@@ -24,3 +26,8 @@ python_version = "3.7"
 [scripts]
 crawl-verbs = "python -m spreukbot.crawler.verbs"
 crawl-professions = "python -m spreukbot.crawler.professions"
+generate-profession = "python -m spreukbot.profession"
+generate = "python -m spreukbot.generator"
+
+[pipenv]
+allow_prereleases = true
